@@ -68,7 +68,7 @@ if (!$conn) {
                                     <ul class="sub-dropdown">
                                         <li><a href="restaurant-found.html" title="RESTAURANT 1" itemprop="url">RESTAURANT 1</a></li>
                                         <li><a href="restaurant-found2.html" title="RESTAURANT 2" itemprop="url">RESTAURANT 2</a></li>
-                                        <li><a href="restaurant-detail.php" title="RESTAURANT DETAILS" itemprop="url">RESTAURANT DETAILS</a></li>
+                                        <li><a href="restaurant-detail.html" title="RESTAURANT DETAILS" itemprop="url">RESTAURANT DETAILS</a></li>
                                         <li><a href="food-recipes.html" title="RESTAURANT DETAILS" itemprop="url">FOOD RECIPES</a></li>
                                         <li><a href="our-articles.html" title="RESTAURANT DETAILS" itemprop="url">OUR ARTICLES</a></li>
                                         <li><a href="our-menu.html" title="RESTAURANT DETAILS" itemprop="url">OUR MENU</a></li>
@@ -127,13 +127,13 @@ if (!$conn) {
                                 </li>
                                 <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr">REAL FOOD</span>CONTACT US</a></li>
                             </ul>
-                            <a class="red-bg brd-rd4" href="register-reservation.php" title="Register" itemprop="url">REGISTER RESTAURANT</a>
+                            <a class="red-bg brd-rd4" href="dashboard.php" title="Register" itemprop="url">DASHBOARD</a>
                         </div>
                     </nav><!-- Navigation -->
                 </div>
             </div><!-- Logo Menu Section -->
         </header><!-- Header -->
-
+        
         <div class="responsive-header">
             <div class="responsive-topbar">
                 <div class="select-wrp">

@@ -95,7 +95,7 @@ if (isset($_POST['cmd']) && $_POST['cmd'] == 'add') {
 
     if (mysqli_num_rows($result1) > 0) {
         while ($row = mysqli_fetch_assoc($result1)) {
-            $food = $food. $row['name'] . " x" . $row['quantity'] . "; ";
+            $food = $food . $row['name'] . " x" . $row['quantity'] . "; ";
         }
         $sql2 = "truncate table shopping_cart";
         $userID = $_POST['userID'];
@@ -108,7 +108,9 @@ if (isset($_POST['cmd']) && $_POST['cmd'] == 'add') {
             echo "Address saved successfully<br/>";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+        } 
+        $conn->query($sql2);
+        unset($_SESSION["shopping_cart"]);
     }
 }
 
@@ -244,7 +246,7 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
                                 </li>
                                 <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr">REAL FOOD</span>CONTACT US</a></li>
                             </ul>
-                            <a class="red-bg brd-rd4" href="register-reservation.php" title="Register" itemprop="url">REGISTER RESTAURANT</a>
+                            <a class="red-bg brd-rd4" href="dashboard.php" title="Register" itemprop="url">DASHBOARD</a>
                         </div>
                     </nav><!-- Navigation -->
                 </div>
@@ -786,10 +788,10 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
                                                                                         <input type="hidden" name="date" value="<?php echo $row['date']; ?>" />
                                                                                         <input type="hidden" name="cmd" value="del" />
                                                                                         <div>
-                                                                                        <button type="submit">
-                                                                                            <img src="assets/images/icon-del.png" width="20" />
-                                                                                        </button>
-                                                                                        <h3><?php echo $row['userID']; ?> odered <?php echo $row['food']; ?> at <?php echo $row['date']; ?></h3>
+                                                                                            <button type="submit">
+                                                                                                <img src="assets/images/icon-del.png" width="20" />
+                                                                                            </button>
+                                                                                            <h3><?php echo $row['userID']; ?> odered <?php echo $row['food']; ?> at <?php echo $row['date']; ?></h3>
                                                                                         </div>
                                                                                     </form>
                                                                                 </td>
@@ -972,10 +974,10 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
             <div class="payment-popup-inner" style="background-image: url(assets/images/payment-popup-bg.jpg);">
                 <a class="payment-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
                 <h4 class="payment-popup-title" itemprop="headline"><i class="fa fa-money red-clr"></i> Cash Payment</h4>
-                <div class="payment-popup-info">
-                    <h5 itemprop="headline">Payment Details</h5>
-                    <p>*Please register first if you haven't register</p>
-                    <form class="payment-popup-info-inner" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <form class="payment-popup-info-inner" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <div class="payment-popup-info">
+                        <h5 itemprop="headline">Payment Details</h5>
+                        <p>*Please register first if you haven't register</p>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-lg-6">
                                 <ul class="payment-info-list">
@@ -1012,19 +1014,19 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
                                 <textarea class="brd-rd3" placeholder="Description..." name="note"></textarea>
                             </div>
                         </div>
-                </div>
-                <div class="confrm-order red-bg">
-                    <ul class="order-total">
-                        <li><span>Total</span><i>$<?php echo $subtotal + $deliveryfee + $tax ?></i></li>
-                        <li><span>SubTotal</span> <i>$<?php echo $subtotal ?></i></li>
-                        <li><span>Delivery fee</span> <i>$<?php echo $deliveryfee ?></i></li>
-                        <li><span>Tax (7%)</span> <i>$<?php echo $tax ?></i></li>
-                    </ul>
-                    <div class="confrm-order-btn">
-                        <input type="submit" class="custom" value="CONFIRM ORDER" />
-                        <!-- <a class="brd-rd3" href="#" title="" itemprop="url">CONFIRM ORDER</a> -->
                     </div>
-                </div>
+                    <div class="confrm-order red-bg">
+                        <ul class="order-total">
+                            <li><span>Total</span><i>$<?php echo $subtotal + $deliveryfee + $tax ?></i></li>
+                            <li><span>SubTotal</span> <i>$<?php echo $subtotal ?></i></li>
+                            <li><span>Delivery fee</span> <i>$<?php echo $deliveryfee ?></i></li>
+                            <li><span>Tax (7%)</span> <i>$<?php echo $tax ?></i></li>
+                        </ul>
+                        <div class="confrm-order-btn">
+                            <input type="submit" class="custom" value="CONFIRM ORDER" />
+                            <!-- <a class="brd-rd3" href="#" title="" itemprop="url">CONFIRM ORDER</a> -->
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
