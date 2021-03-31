@@ -8,6 +8,14 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+if (isset($_POST["delete"])) {
+    $userid = $_POST['userid'];
+    $sql = "DELETE FROM userinfo
+            WHERE userID = '$userid';";
+    $conn->query($sql);
+}
+
 ?>
 
 <head>
@@ -29,6 +37,19 @@ if (!$conn) {
 </head>
 
 <body itemscope>
+<div class="log-popup text-center">
+        <div class="newsletter-popup-inner" style="background-image: url(assets/images/newsletter-bg.jpg);">
+            <a class="close-btn brd-rd50" href="#" title="Close Button" itemprop="url"><i class="fa fa-close"></i></a>
+            <h3 itemprop="headline"><i class="fa fa-info red-clr"></i> ENTER YOUR USERID</h3>
+            <!-- <p itemprop="description">Join our Subscribers list to get the latest news, updates and special offers delivered directly in your inbox.</p> -->
+            <form method="post" action="dashboard.php" class="newsletter-frm brd-rd30">
+                <input class="brd-rd30" name="userid" placeholder="ENTER YOUR ID">
+                <button name="userid_submit" class="brd-rd30 red-bg" type="submit">SUBMIT</button>
+                <!-- <input name="userid_submit" class="brd-rd30 red-bg" type="submit" value="submit"/> -->
+            </form>
+            <!-- <span class="red-clr"><i class="fa fa-check"></i> Thanks, your address has been added.</span> -->
+        </div>
+    </div>
     <main>
         <div class="preloader">
             <div id="cooking">
@@ -127,7 +148,7 @@ if (!$conn) {
                                 </li>
                                 <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr">REAL FOOD</span>CONTACT US</a></li>
                             </ul>
-                            <a class="red-bg brd-rd4" href="dashboard.php" title="Register" itemprop="url">DASHBOARD</a>
+                            <a class="red-bg brd-rd4 log-popup-btn" href="dashboard.php" title="Register" itemprop="url">DASHBOARD</a>
                         </div>
                     </nav><!-- Navigation -->
                 </div>

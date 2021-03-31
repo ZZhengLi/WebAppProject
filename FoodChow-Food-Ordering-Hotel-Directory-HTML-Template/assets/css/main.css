@@ -84,6 +84,36 @@ input[type="submit"].custom:hover {
   color: #1a1a1a;
 }
 
+.custom2 {
+  color: rgb(0, 0, 0);
+  font:700;
+  background-color: #ea1b25;
+  /* margin-top: 28px; */
+  /* padding: 10px 15px; */
+  /* margin-right: -20px; */
+  font-size: 20px;
+}
+
+.custom2:hover {
+  color: #ffffff;
+  background-color: #000;
+}
+
+.custom3 {
+  color: rgb(0, 0, 0);
+  font:700;
+  background-color: #3700ff;
+  /* margin-top: 28px; */
+  /* padding: 10px 15px; */
+  /* margin-right: -20px; */
+  font-size: 20px;
+}
+
+.custom3:hover {
+  color: #ffffff;
+  background-color: #000;
+}
+
 body {
   float: left;
   width: 100%;
@@ -5349,8 +5379,11 @@ input:checked + .switch-slider:before {
 }
 .sign-form a.recover-btn {float: right;}
 /*===== Login & Register Popup =====*/
+
+
 .log-popup,
 .sign-popup {
+  margin-top: 100px;
   position: fixed;
   z-index: 999;
   top: 0;
@@ -5362,8 +5395,13 @@ input:checked + .switch-slider:before {
   visibility: hidden;
   overflow-y: auto;
 }
+
+.userid-popup {
+  visibility: hidden;
+}
 .log-popup .sign-popup-wrapper,
 .sign-popup .sign-popup-wrapper {
+
   max-width: 570px;
   display: inline-block;
   float: none;
@@ -5386,12 +5424,14 @@ input:checked + .switch-slider:before {
 .log-close-btn:focus,
 .sign-close-btn:hover,
 .sign-close-btn:focus {color: #fff;}
+html.userid-active,
 html.log-popup-active,
 html.sign-popup-active,
 html.order-popup-active,
 html.cash-method-popup-active,
 html.card-method-popup-active,
 html.thanks-message-popup-active {overflow-y: hidden;}
+html.userid-active .userid-popup,
 html.log-popup-active .log-popup,
 html.sign-popup-active .sign-popup,
 html.order-popup-active .your-order-popup,

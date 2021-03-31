@@ -12,7 +12,7 @@ if (!$conn) {
 
 if (isset($_POST["add_to_cart"])) {
     //insert
-
+    //as
     $id = $_POST["id"];
     $name = $_POST["name"];
     $price = $_POST["price"];
@@ -108,7 +108,7 @@ if (isset($_POST['cmd']) && $_POST['cmd'] == 'add') {
             echo "Address saved successfully<br/>";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
-        } 
+        }
         $conn->query($sql2);
         unset($_SESSION["shopping_cart"]);
     }
@@ -148,6 +148,18 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
 </head>
 
 <body itemscope>
+    <div class="log-popup text-center">
+        <div class="newsletter-popup-inner" style="background-image: url(assets/images/newsletter-bg.jpg);">
+            <a class="close-btn brd-rd50" href="#" title="Close Button" itemprop="url"><i class="fa fa-close"></i></a>
+            <h3 itemprop="headline"><i class="fa fa-info red-clr"></i> ENTER YOUR USERID</h3>
+            <!-- <p itemprop="description">Join our Subscribers list to get the latest news, updates and special offers delivered directly in your inbox.</p> -->
+            <form method="post" action="dashboard.php" class="newsletter-frm brd-rd30">
+                <input class="brd-rd30" name="userid" placeholder="ENTER YOUR ID">
+                <button name="userid_submit" class="brd-rd30 red-bg" type="submit">SUBMIT</button>
+            </form>
+            <!-- <span class="red-clr"><i class="fa fa-check"></i> Thanks, your address has been added.</span> -->
+        </div>
+    </div>
     <main>
         <div class="preloader">
             <div id="cooking">
@@ -246,7 +258,7 @@ if (isset($_POST['adduser']) && $_POST['adduser'] == 'adduser') {
                                 </li>
                                 <li><a href="contact.html" title="CONTACT US" itemprop="url"><span class="red-clr">REAL FOOD</span>CONTACT US</a></li>
                             </ul>
-                            <a class="red-bg brd-rd4" href="dashboard.php" title="Register" itemprop="url">DASHBOARD</a>
+                            <a class="red-bg brd-rd4 log-popup-btn" href="#" title="Dashboard" itemprop="url">DASHBOARD</a>
                         </div>
                     </nav><!-- Navigation -->
                 </div>

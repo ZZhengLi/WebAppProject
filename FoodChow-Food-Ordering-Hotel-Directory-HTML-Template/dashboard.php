@@ -1,6 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+include_once("config.php");
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+$userid = $_POST['userid'];
+$sql = "SELECT * FROM  userinfo
+            WHERE userID = '$userid';";
+$result = $conn->query($sql);
+if (mysqli_num_rows($result) == 0) {
+    echo '<script>alert("User does not exist")</script>';
+    echo "<script> location.href='index.php'; </script>";
+    exit;
+}
+
+
+if (isset($_POST["update"])) {
+    $userid = $_POST['userid'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $sql = "UPDATE userinfo 
+            SET name = '$name',
+            phone = '$phone',
+            email = '$email',
+            address = '$address'
+            WHERE userID = '$userid';";
+    $conn->query($sql);
+}
+
+?>
+
+
+
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,6 +56,7 @@
 
 <body itemscope>
     <main>
+        
         <div class="preloader">
             <div id="cooking">
                 <div class="bubble"></div>
@@ -48,7 +85,7 @@
                     <nav>
                         <div class="menu-sec">
                             <ul>
-                                <li class="menu-item-has-children"><a href="#" title="HOMEPAGES" itemprop="url"><span class="red-clr">FOOD ORDERING</span>HOMEPAGES</a>
+                                <li class="menu-item-has-children"><a href="#" title="HOMEPAGES" itemprop="url"><span class="red-clr">FOOD ORDERING</span><?php echo $_POST['userid'] ?></a>
                                     <ul class="sub-dropdown">
                                         <li><a href="index.php" title="HOMEPAGE 1" itemprop="url">HOMEPAGE 1</a></li>
                                         <li><a href="index.php" title="HOMEPAGE 2" itemprop="url">HOMEPAGE 2</a></li>
@@ -123,7 +160,7 @@
                 </div>
             </div><!-- Logo Menu Section -->
         </header><!-- Header -->
-        
+
         <div class="responsive-header">
             <div class="responsive-topbar">
                 <div class="select-wrp">
@@ -283,12 +320,12 @@
                                                         </div>
                                                     </div>
                                                     <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#dashboard" data-toggle="tab"><i class="fa fa-dashboard"></i> DASHBOARD</a></li>
+                                                        <!-- <li><a href="#dashboard" data-toggle="tab"><i class="fa fa-dashboard"></i> DASHBOARD</a></li>
                                                         <li><a href="#my-bookings" data-toggle="tab"><i class="fa fa-file-text"></i> MY BOOKINGS</a></li>
-                                                        <li><a href="#my-reviews" data-toggle="tab"><i class="fa fa-comments"></i> MY REVIEWS</a></li>
-                                                        <li><a href="#my-orders" data-toggle="tab"><i class="fa fa-shopping-basket"></i> MY ORDERS</a></li>
-                                                        <li><a href="#shortlists" data-toggle="tab"><i class="fa fa-heart"></i> SHORTLISTS</a></li>
-                                                        <li><a href="#statement" data-toggle="tab"><i class="fa fa-wpforms"></i> STATEMENT</a></li>
+                                                        <li><a href="#my-reviews" data-toggle="tab"><i class="fa fa-comments"></i> MY REVIEWS</a></li> -->
+                                                        <li  class="active"><a href="#my-orders" data-toggle="tab"><i class="fa fa-shopping-basket"></i> MY ORDERS</a></li>
+                                                        <!-- <li><a href="#shortlists" data-toggle="tab"><i class="fa fa-heart"></i> SHORTLISTS</a></li>
+                                                        <li><a href="#statement" data-toggle="tab"><i class="fa fa-wpforms"></i> STATEMENT</a></li> -->
                                                         <li><a href="#account-settings" data-toggle="tab"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
                                                     </ul>
                                                 </div>
@@ -296,7 +333,7 @@
                                         </div>
                                         <div class="col-md-8 col-sm-12 col-lg-8">
                                             <div class="tab-content">
-                                                <div class="tab-pane fade in active" id="dashboard">
+                                                <div class="tab-pane fade" id="dashboard">
                                                     <div class="dashboard-wrapper brd-rd5">
                                                         <div class="welcome-note yellow-bg brd-rd5">
                                                             <h4 itemprop="headline">WELCOME TO YOUR ACCOUNT</h4>
@@ -503,7 +540,7 @@
                                                         </div><!-- Review List -->
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane fade" id="my-orders">
+                                                <div class="tab-pane fade in active" id="my-orders">
                                                     <div class="tabs-wrp brd-rd5">
                                                         <h4 itemprop="headline">MY ORDERS</h4>
                                                         <div class="select-wrap-inner">
@@ -527,7 +564,8 @@
                                                             include_once("config.php");
                                                             // Create connection
                                                             $conn = mysqli_connect($servername, $username, $password, $dbname);
-                                                            $sql = "SELECT * FROM DeliveryInfo ORDER BY date";
+                                                            $id = $_POST['userid'];
+                                                            $sql = "SELECT * FROM DeliveryInfo WHERE userID = '$id'ORDER BY date ";
                                                             $result = mysqli_query($conn, $sql);
 
                                                             if (mysqli_num_rows($result) > 0) {
@@ -548,7 +586,7 @@
                                                                                     <button type="submit">
                                                                                         <img src="assets/images/icon-del.png" width="20" />
                                                                                     </button>
-                                                                                    <h3><?php echo $row['userID']; ?> odered <?php echo $row['food']; ?> at <?php echo $row['date']; ?></h3>
+                                                                                    <h3>You ordered <?php echo $row['food']; ?> at <?php echo $row['date']; ?></h3>
                                                                                 </div>
                                                                             </form>
                                                                         </td>
@@ -573,76 +611,9 @@
                                                                 }
                                                                 mysqli_close($conn);
                                                             } ?>
-                                                        <div class="order-item brd-rd5">
-                                                            <div class="order-thumb brd-rd5">
-                                                                <a href="#" title="" itemprop="url"><img src="assets/images/resource/order-img1.jpg" alt="order-img1.jpg" itemprop="image"></a>
-                                                                <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 4.25</span>
-                                                            </div>
-                                                            <div class="order-info">
-                                                                <span class="red-clr">5th Avenue New York 68</span>
-                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
-
-                                                                <span class="price">$85.00</span>
-                                                                <span class="processing brd-rd3">PROCESSING</span>
-                                                                <a class="brd-rd2" href="#" title="" itemprop="url">Order Detail</a>
-                                                            </div>
+                                                        
                                                         </div>
-                                                        <div class="order-item brd-rd5">
-                                                            <div class="order-thumb brd-rd5">
-                                                                <a href="#" title="" itemprop="url"><img src="assets/images/resource/order-img2.jpg" alt="order-img2.jpg" itemprop="image"></a>
-                                                                <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 3.0</span>
-                                                            </div>
-                                                            <div class="order-info">
-                                                                <span class="red-clr">5th Avenue New York 68</span>
-                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
-
-                                                                <span class="price">$85.00</span>
-                                                                <span class="completed brd-rd3">COMPLETED</span>
-                                                                <a class="brd-rd2" href="#" title="" itemprop="url">Order Detail</a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="order-item brd-rd5">
-                                                            <div class="order-thumb brd-rd5">
-                                                                <a href="#" title="" itemprop="url"><img src="assets/images/resource/order-img3.jpg" alt="order-img3.jpg" itemprop="image"></a>
-                                                                <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.00</span>
-                                                            </div>
-                                                            <div class="order-info">
-                                                                <span class="red-clr">5th Avenue New York 68</span>
-                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
-
-                                                                <span class="price">$85.00</span>
-                                                                <span class="completed brd-rd3">COMPLETED</span>
-                                                                <a class="brd-rd2" href="#" title="" itemprop="url">Order Detail</a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="order-item brd-rd5">
-                                                            <div class="order-thumb brd-rd5">
-                                                                <a href="#" title="" itemprop="url"><img src="assets/images/resource/order-img4.jpg" alt="order-img4.jpg" itemprop="image"></a>
-                                                                <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> 5.30</span>
-                                                            </div>
-                                                            <div class="order-info">
-                                                                <span class="red-clr">5th Avenue New York 68</span>
-                                                                <h4 itemprop="headline"><a href="#" title="" itemprop="url">Maenaam Thai Restaurant</a></h4>
-
-                                                                <span class="price">$85.00</span>
-                                                                <span class="completed brd-rd3">COMPLETED</span>
-                                                                <a class="brd-rd2" href="#" title="" itemprop="url">Order Detail</a>
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                        <div class="pagination-wrapper text-center style2">
-                                                            <ul class="pagination justify-content-center">
-                                                                <li class="page-item prev"><a class="page-link brd-rd2" href="#" itemprop="url">PREV</a></li>
-                                                                <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">1</a></li>
-                                                                <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">2</a></li>
-                                                                <li class="page-item active"><span class="page-link brd-rd2">3</span></li>
-                                                                <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">4</a></li>
-                                                                <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">5</a></li>
-                                                                <li class="page-item">........</li>
-                                                                <li class="page-item"><a class="page-link brd-rd2" href="#" itemprop="url">18</a></li>
-                                                                <li class="page-item next"><a class="page-link brd-rd2" href="#" itemprop="url">NEXT</a></li>
-                                                            </ul>
-                                                        </div><!-- Pagination Wrapper -->
+                                                        <!-- Pagination Wrapper -->
                                                     </div>
                                                 </div>
                                                 <div class="tab-pane fade" id="shortlists">
@@ -790,88 +761,77 @@
                                                         <h4 itemprop="headline">ACCOUNT SETTINGS</h4>
                                                         <div class="account-settings-inner">
                                                             <div class="row">
-                                                                <div class="col-md-4 col-sm-4 col-lg-4">
-                                                                    <div class="profile-info text-center">
-                                                                        <div class="profile-thumb brd-rd50">
-                                                                            <img id="profile-display" src="assets/images/resource/profile-img1.jpg" alt="profile-img1.jpg" itemprop="image">
-                                                                        </div>
-                                                                        <a class="red-clr change-password" href="#" title="" itemprop="url">Change Password</a>
-                                                                        <div class="profile-img-upload-btn">
-                                                                            <label class="fileContainer brd-rd5 yellow-bg">
-                                                                                UPLOAD PICTURE
-                                                                                <input id="profile-upload" type="file" />
-                                                                            </label>
-                                                                        </div>
-                                                                        <p itemprop="description">Upload a profile picture or choose one of the following</p>
-                                                                        <div class="default-img-lst">
-                                                                            <img class="brd-rd50" src="assets/images/resource/profile-thumb1.jpg" alt="profile-thumb1.jpg" itemprop="image">
-                                                                            <img class="brd-rd50" src="assets/images/resource/profile-thumb2.jpg" alt="profile-thumb2.jpg" itemprop="image">
-                                                                            <img class="brd-rd50" src="assets/images/resource/profile-thumb3.jpg" alt="profile-thumb3.jpg" itemprop="image">
-                                                                            <img class="brd-rd50" src="assets/images/resource/profile-thumb4.jpg" alt="profile-thumb4.jpg" itemprop="image">
-                                                                            <img class="brd-rd50" src="assets/images/resource/profile-thumb5.jpg" alt="profile-thumb5.jpg" itemprop="image">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-8 col-sm-8 col-lg-8">
+                                                                <div class="col-md-12 col-sm-12 col-lg-12">
                                                                     <div class="profile-info-form-wrap">
-                                                                        <form class="profile-info-form">
+                                                                        <form id="profile" class="profile-info-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                                                             <div class="row mrg20">
+                                                                                <?php
+                                                                                include_once("config.php");
+                                                                                $conn = mysqli_connect($servername, $username, $password, $dbname);
+                                                                                $id = $_POST['userid'];
+                                                                                $sql = "SELECT * FROM userinfo WHERE userID = '$id'";
+                                                                                $result = $conn->query($sql);
+                                                                                $row = $result->fetch_assoc();
+                                                                                // $row = mysqli_fetch_array($result);
+                                                                                // if (mysqli_num_rows($result) == 0) {
+                                                                                //     echo "hello";
+                                                                                // }
+                                                                                ?>
+
                                                                                 <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                                    <label>Complete Name <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="text" placeholder="Enter Your Name">
+                                                                                    <label>Name</label>
+                                                                                    <input class="brd-rd3" type="text" name="name" value="<?php echo $row['name'] ?>" disabled>
                                                                                 </div>
                                                                                 <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                                    <label>Email Address <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="email" placeholder="Enter Your Email Address">
+                                                                                    <label>Email Address</label>
+                                                                                    <input class="brd-rd3" type="text" name="phone" value="<?php echo $row['phone'] ?>" disabled>
                                                                                 </div>
                                                                                 <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                                    <label>Phone No <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="text" placeholder="Enter Your Phone No">
+                                                                                    <label>Phone No</label>
+                                                                                    <input class="brd-rd3" type="text" name="email" value="<?php echo $row['email'] ?>" disabled>
                                                                                 </div>
                                                                                 <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                                    <label>Country <sup>*</sup></label>
-                                                                                    <div class="select-wrp">
-                                                                                        <select>
-                                                                                            <option>Pakistan</option>
-                                                                                            <option>India</option>
-                                                                                            <option>USA</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                                    <label>State <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="text">
-                                                                                </div>
-                                                                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                                    <label>City <sup>*</sup></label>
-                                                                                    <div class="select-wrp">
-                                                                                        <select>
-                                                                                            <option>Karachi</option>
-                                                                                            <option>Multan</option>
-                                                                                            <option>Lahore</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                                    <label>Latitude <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="text">
-                                                                                </div>
-                                                                                <div class="col-md-6 col-sm-6 col-lg-6">
-                                                                                    <label>Longitude <sup>*</sup></label>
-                                                                                    <input class="brd-rd3" type="text">
+                                                                                    <label>City</label>
+                                                                                    <input class="brd-rd3" type="text" name="address" value="<?php echo $row['address'] ?>" disabled>
                                                                                 </div>
                                                                             </div>
+                                                                            <input type="text" hidden name="userid" value="<?php echo $_POST['userid'] ?>"/>
+                                                                            <input id="update" class="custom2" hidden type="submit" name="update" value="Update" />
+                                                                            <input id="cancel" class="custom2" hidden type="button" value="Cancel" />
+                                                                            <input id="edit" class="custom2" type="button" value="Edit" />
                                                                         </form>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12 col-sm-12 col-lg-12">
-                                                                    <div class="loc-map2">
-                                                                        <div class="loc-map brd-rd3" id="loc-map"></div>
+                                                                            <form class="profile-info-form" method="post" action="index.php">
+                                                                                <input type="text" hidden name="userid" value="<?php echo $_POST['userid'] ?>"/>
+                                                                            <input class="custom3" type="submit" name="delete" value="Delete Account" />
+                                                                            </form>
 
-                                                                        <div class="loc-srch">
-                                                                            <input class="brd-rd3" type="text" placeholder="Type Your Address">
-                                                                            <button class="brd-rd3 red-bg" type="submit">Search Now</button>
-                                                                        </div>
+                                                                            <script>
+                                                                                var edit = document.getElementById('edit');
+                                                                                var profile = document.getElementById('profile');
+                                                                                var update = document.getElementById('update');
+                                                                                edit.addEventListener('click', function() {
+                                                                                    for (var i = 0; i < profile.length; i++) {
+                                                                                        profile.elements[i].disabled = false;
+
+                                                                                    }
+                                                                                    profile.elements[0].focus();
+                                                                                    update.hidden = false;
+                                                                                    cancel.hidden = false;
+                                                                                    edit.hidden = true;
+                                                                                });
+                                                                                
+                                                                                cancel.addEventListener('click', function() {
+                                                                                    for (var i = 0; i < profile.length; i++) {
+                                                                                        profile.elements[i].disabled = true;
+
+                                                                                    }
+                                                                                    profile.elements[0].focus();
+                                                                                    update.hidden = true;
+                                                                                    cancel.hidden = true;
+                                                                                    edit.hidden = false;
+                                                                                });
+
+                                                                            </script>
                                                                     </div>
                                                                 </div>
                                                             </div>

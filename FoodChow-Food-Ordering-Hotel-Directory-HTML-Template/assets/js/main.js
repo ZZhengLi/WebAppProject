@@ -35,6 +35,16 @@ $(document).ready(function(){
     return false;
   });
 
+  $('.userid-btn').on('click',function(){
+    $('html').addClass('userid-active');
+    return false;
+  });
+
+  $('.userid-btn').on('click',function(){
+    $('html').removeClass('userid-active');
+    return false;
+  });
+
   //===== Login Popup Script =====//
   $('.log-popup-btn').on('click',function(){
     $('html').addClass('log-popup-active');
